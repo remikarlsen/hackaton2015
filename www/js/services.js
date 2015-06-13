@@ -1,5 +1,16 @@
 angular.module('starter.services', [])
 
+.factory('ruterService', function($http) {
+   return {
+     getPing: function() {
+           return $http({
+            url: 'http://reisapi.ruter.no/heartbeat/index?json=true',
+            method: 'GET'
+        })
+     }
+   }
+})
+
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
 
