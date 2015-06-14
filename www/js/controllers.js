@@ -3,16 +3,20 @@ angular.module('starter.controllers', [])
 .controller('DashCtrl', function($scope, ruterService) {
 	$scope.pingresponse = "Test";
 
+/*
     ruterService.getPing().success(function(data){
     	$scope.pingresponse = data;
 	});
-	
-	$scope.myTravels = ruterService.getMyTravels();
-	$scope.myTravels = _.groupBy($scope.myTravels, function(item){return item.category});
-	
+
     ruterService.getTravels('3010200', '3010011', 5).success(function(data){
     	$scope.majorstuenToJernbanetorget = data;
 	});	
+*/
+		
+	$scope.MyDestinations = ruterService.getMyDestinations();
+	$scope.myTravels = ruterService.getMyTravels();
+	$scope.myTravels = _.groupBy($scope.myTravels, function(item){return item.to.desc});
+	
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {

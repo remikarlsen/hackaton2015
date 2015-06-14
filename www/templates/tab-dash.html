@@ -18,11 +18,26 @@
     </div> 
     <div class="list card">
       <div class="item item-divider">My travels by group</div>
-      <div class="item item-body">       
+      <div class="item item-body">  
         <div>
-        	{{myTravels}}
-        </div>
+        	{{MyDestinations}}
+        </div>           
       </div>
-    </div>         
+    </div>   
+    
+    <ion-list>
+  		<ion-item ng-repeat="(key, value) in myTravels">
+    		{{key}}
+  		</ion-item>
+	</ion-list> 
+	    
+    <ion-list>
+  		<ion-item collection-repeat="item in myTravels[MyDestinations.JOBB]">
+    		{{item.from.desc}} -> {{item.to.desc}}
+  		</ion-item>
+	</ion-list> 
+	
   </ion-content>
 </ion-view>
+
+

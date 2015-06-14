@@ -2,24 +2,32 @@ angular.module('starter.services', [])
 
 .factory('ruterService', function($http, $filter) {
 
+	var MyDestinations = {
+		HJEM: 'Hjem',
+		JOBB: 'Jobb',
+		SKOLE: 'Skole',
+		BARNEHAGE: 'Barnehage'
+	};
+
 	var myStops = {};
-	myStops['Majorstuen'] = '3010200';
-	myStops['Jernbanetorget'] = '3010011';
-	myStops['Rodtvedt'] = '3011910';
-	myStops['Veitvedt'] = '3012040';
-	
+	myStops['Majorstuen'] = {id:'3010200', desc:MyDestinations.HJEM};
+	myStops['Jernbanetorget'] = {id:'3010011', desc:MyDestinations.JOBB};
+	myStops['Rodtvedt'] = {id:'3011910', desc:MyDestinations.BARNEHAGE};
+	myStops['Veitvedt'] = {id:'3012040', desc:MyDestinations.SKOLE};
+
 	var myTravels = [
-	{name:'majorstuenToJernbanetorget', from:myStops['Majorstuen'], to:myStops['Jernbanetorget'], category:'toWork'},
-	{name:'rodtvedtToJernbanetorget', from:myStops['Rodtvedt'], to:myStops['Jernbanetorget'], category:'toWork'},
-	{name:'veitvedtToJernbanetorget', from:myStops['Veitvedt'], to:myStops['Jernbanetorget'], category:'toWork'},
-	{name:'jernbanetorgetToVeitvedt', from:myStops['Jernbanetorget'], to:myStops['Veitvedt'], category:'toSchool'},
-	{name:'majorstuenToVeitvedt', from:myStops['Majorstuen'], to:myStops['Veitvedt'], category:'toSchool'},
-	{name:'majorstuenToRodtvedt', from:myStops['Majorstuen'], to:myStops['Rodvedt'], category:'toKintergarten'},
-	{name:'jernbanetorgetToRodtvedt', from:myStops['Jernbanetorget'], to:myStops['Rodtvedt'], category:'toKintergarten'},
-	{name:'jernbanetorgetToMajorstuen', from:myStops['Jernbanetorget'], to:myStops['Majorstuen'], category:'toHome'},
-	{name:'veitvedtToMajorstuen', from:myStops['Veitvedt'], to:myStops['Majorstuen'], category:'toHome'},
-	{name:'rodvedtToMajorstuen', from:myStops['Rodvedt'], to:myStops['Majorstuen'], category:'toHome'}
+	{name:'majorstuenToJernbanetorget', from:myStops['Majorstuen'], to:myStops['Jernbanetorget']},
+	{name:'rodtvedtToJernbanetorget', from:myStops['Rodtvedt'], to:myStops['Jernbanetorget']},
+	{name:'veitvedtToJernbanetorget', from:myStops['Veitvedt'], to:myStops['Jernbanetorget']},
+	{name:'jernbanetorgetToVeitvedt', from:myStops['Jernbanetorget'], to:myStops['Veitvedt']},
+	{name:'majorstuenToVeitvedt', from:myStops['Majorstuen'], to:myStops['Veitvedt']},	
+	{name:'majorstuenToRodtvedt', from:myStops['Majorstuen'], to:myStops['Rodtvedt']},
+	{name:'jernbanetorgetToRodtvedt', from:myStops['Jernbanetorget'], to:myStops['Rodtvedt']},
+	{name:'jernbanetorgetToMajorstuen', from:myStops['Jernbanetorget'], to:myStops['Majorstuen']},
+	{name:'veitvedtToMajorstuen', from:myStops['Veitvedt'], to:myStops['Majorstuen']},
+	{name:'rodvedtToMajorstuen', from:myStops['Rodtvedt'], to:myStops['Majorstuen']}	
 	]; 
+	
 
    return {
    
@@ -32,6 +40,10 @@ angular.module('starter.services', [])
     
      getMyTravels: function() {
      	return myTravels;
+     },
+     
+     getMyDestinations: function() {
+     	return MyDestinations;
      },
      
      getTravels: function(from, to, line) {
