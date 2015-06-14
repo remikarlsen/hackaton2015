@@ -8,6 +8,7 @@ angular.module('starter.controllers', [])
 	});
 	
 	$scope.myTravels = ruterService.getMyTravels();
+	$scope.myTravels = _.groupBy($scope.myTravels, function(item){return item.category});
 	
     ruterService.getTravels('3010200', '3010011', 5).success(function(data){
     	$scope.majorstuenToJernbanetorget = data;

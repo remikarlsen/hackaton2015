@@ -5,9 +5,20 @@ angular.module('starter.services', [])
 	var myStops = {};
 	myStops['Majorstuen'] = '3010200';
 	myStops['Jernbanetorget'] = '3010011';
+	myStops['Rodtvedt'] = '3011910';
+	myStops['Veitvedt'] = '3012040';
 	
 	var myTravels = [
-	{name:'majorstuenToJernbanetorget', from:myStops['Majorstuen'], to:myStops['Jernbanetorget'], category:'toWork'}	
+	{name:'majorstuenToJernbanetorget', from:myStops['Majorstuen'], to:myStops['Jernbanetorget'], category:'toWork'},
+	{name:'rodtvedtToJernbanetorget', from:myStops['Rodtvedt'], to:myStops['Jernbanetorget'], category:'toWork'},
+	{name:'veitvedtToJernbanetorget', from:myStops['Veitvedt'], to:myStops['Jernbanetorget'], category:'toWork'},
+	{name:'jernbanetorgetToVeitvedt', from:myStops['Jernbanetorget'], to:myStops['Veitvedt'], category:'toSchool'},
+	{name:'majorstuenToVeitvedt', from:myStops['Majorstuen'], to:myStops['Veitvedt'], category:'toSchool'},
+	{name:'majorstuenToRodtvedt', from:myStops['Majorstuen'], to:myStops['Rodvedt'], category:'toKintergarten'},
+	{name:'jernbanetorgetToRodtvedt', from:myStops['Jernbanetorget'], to:myStops['Rodtvedt'], category:'toKintergarten'},
+	{name:'jernbanetorgetToMajorstuen', from:myStops['Jernbanetorget'], to:myStops['Majorstuen'], category:'toHome'},
+	{name:'veitvedtToMajorstuen', from:myStops['Veitvedt'], to:myStops['Majorstuen'], category:'toHome'},
+	{name:'rodvedtToMajorstuen', from:myStops['Rodvedt'], to:myStops['Majorstuen'], category:'toHome'}
 	]; 
 
    return {
