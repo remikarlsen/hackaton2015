@@ -6,6 +6,12 @@ angular.module('starter.controllers', [])
     ruterService.getPing().success(function(data){
     	$scope.pingresponse = data;
 	});
+	
+	$scope.myTravels = ruterService.getMyTravels();
+	
+    ruterService.getTravels('3010200', '3010011', 5).success(function(data){
+    	$scope.majorstuenToJernbanetorget = data;
+	});	
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {

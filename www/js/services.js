@@ -1,12 +1,53 @@
 angular.module('starter.services', [])
 
-.factory('ruterService', function($http) {
+.factory('ruterService', function($http, $filter) {
+
+	var myStops = {};
+	myStops['Majorstuen'] = '3010200';
+	myStops['Jernbanetorget'] = '3010011';
+	
+	var myTravels = [
+	{name:'majorstuenToJernbanetorget', from:myStops['Majorstuen'], to:myStops['Jernbanetorget'], category:'toWork'}	
+	]; 
+
    return {
+   
      getPing: function() {
            return $http({
             url: 'http://reisapi.ruter.no/heartbeat/index?json=true',
             method: 'GET'
         })
+     },
+    
+     getMyTravels: function() {
+     	return myTravels;
+     },
+     
+     getTravels: function(from, to, line) {
+     	var dateFilter = $filter('date');
+		var filteredDate = dateFilter(new Date(), 'ddMMyyyyhhmmss')
+           return $http({
+            url: 'http://reisapi.ruter.no/Travel/GetTravels?fromplace='+from+'&toplace='+to+'&isafter=True&time='+filteredDate+'&proposals=1&transporttypes=8&linenames='+line,
+            method: 'GET'
+        })
+     },
+     /*
+     getTravels: function(from, to, line) {
+     	var dateFilter = $filter('date');
+		var filteredDate = dateFilter(new Date(), 'ddMMyyyyhhmmss')
+           return $http({
+            url: 'http://reisapi.ruter.no/Travel/GetTravels?fromplace='+from+'&toplace='+to+'&isafter=True&time='+filteredDate+'&proposals=1&transporttypes=8&linenames='+line,
+            method: 'GET'
+        })
+     }, */    
+     
+   }//return
+})
+
+.factory('todo', function($http, $filter) {
+   return {
+     getXXX: function(x, y) {
+		return "todo";
      }
    }
 })
@@ -59,3 +100,4 @@ angular.module('starter.services', [])
     }
   };
 });
+	
