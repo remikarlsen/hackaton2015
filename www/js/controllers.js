@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, ruterService) {
+.controller('DashCtrl', function($ionicPlatform, $scope, ruterService, $cordovaDevice) {
 	$scope.pingresponse = "Test";
 
 /*
@@ -16,6 +16,16 @@ angular.module('starter.controllers', [])
 	$scope.MyDestinations = ruterService.getMyDestinations();
 	$scope.myTravels = ruterService.getMyTravels();
 	$scope.myTravels = _.groupBy($scope.myTravels, function(item){return item.to.desc});
+	
+	
+	$ionicPlatform.ready(function() {
+            // getting device infor from $cordovaDevice
+            var device = $cordovaDevice.getDevice();
+            $scope.manufacturer = device.manufacturer;
+            $scope.model = device.model;
+            $scope.platform = device.platform;
+            $scope.uuid = device.uuid;      
+    });
 	
 })
 
