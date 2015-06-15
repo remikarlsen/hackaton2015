@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($ionicPlatform, $scope, ruterService, $cordovaDevice, $cordovaGeolocation) {
+.controller('DashCtrl', function($ionicPlatform, $scope, ruterService, utilService, $cordovaDevice, $cordovaGeolocation) {
 	$scope.pingresponse = "Test";
 
 /*
@@ -27,36 +27,48 @@ angular.module('starter.controllers', [])
             $scope.uuid = device.uuid;      
     });
 	*/
+	
+	var start = {
+		latitude: 38.898556,
+		longitude: -77.037852
+	};
 
-  var posOptions = {timeout: 10000, enableHighAccuracy: false};
-  $scope.pos = {};
-  $cordovaGeolocation
-    .getCurrentPosition(posOptions)
-    .then(function (position) {
-      $scope.pos.latitude  = position.coords.latitude
-      $scope.pos.longitude = position.coords.longitude
-    }, function(err) {
-      // error
-    });
+	var end = {
+		latitude: 38.897147,
+		longitude: -77.043934
+	};	
 
-  var watchOptions = {
-    frequency : 1000,
-    timeout : 3000,
-    enableHighAccuracy: false // may cause errors if true
-  };
+	$scope.distance = utilService.getDistance(start, end);
 
-  var watch = $cordovaGeolocation.watchPosition(watchOptions);
-  watch.then(
-    null,
-    function(err) {
-      // error
-    },
-    function(position) {
-      $scope.pos.latitude  = position.coords.latitude
-      $scope.pos.longitude = position.coords.longitude
-  });
+	var posOptions = {timeout: 10000, enableHighAccuracy: false};
+	$scope.pos = {};
+	$cordovaGeolocation
+	.getCurrentPosition(posOptions)
+	.then(function (position) {
+	  $scope.pos.latitude  = position.coords.latitude
+	  $scope.pos.longitude = position.coords.longitude
+	}, function(err) {
+	  // error
+	});
 
-  watch.clearWatch();
+	var watchOptions = {
+	frequency : 1000,
+	timeout : 3000,
+	enableHighAccuracy: false // may cause errors if true
+	};
+
+	var watch = $cordovaGeolocation.watchPosition(watchOptions);
+	watch.then(
+	null,
+	function(err) {
+	  // error
+	},
+	function(position) {
+	  $scope.pos.latitude  = position.coords.latitude
+	  $scope.pos.longitude = position.coords.longitude
+	});
+
+	watch.clearWatch();
 	
 })
 

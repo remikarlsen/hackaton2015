@@ -31,6 +31,7 @@ angular.module('starter.services', [])
 
    return {
    
+   /*
      getPing: function() {
            return $http({
             url: 'http://reisapi.ruter.no/heartbeat/index?json=true',
@@ -54,7 +55,7 @@ angular.module('starter.services', [])
             method: 'GET'
         })
      },
-     /*
+     
      getTravels: function(from, to, line) {
      	var dateFilter = $filter('date');
 		var filteredDate = dateFilter(new Date(), 'ddMMyyyyhhmmss')
@@ -67,11 +68,31 @@ angular.module('starter.services', [])
    }//return
 })
 
-.factory('todo', function($http, $filter) {
-   return {
-     getXXX: function(x, y) {
-		return "todo";
-     }
+.factory('utilService', function() {
+	var toRad = function (num) {
+		return num * Math.PI / 180;
+	};
+
+	return{ 
+		getDistance: function(start, end) {
+			var EARTH_RADIUS_KM = 6371;			
+			var dLat = toRad(end.latitude - start.latitude);
+			var dLon = toRad(end.longitude - start.longitude);
+			var lat1 = toRad(start.latitude);
+			var lat2 = toRad(end.latitude);
+
+			var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+				Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+			return EARTH_RADIUS_KM * c * 1000;
+/*
+			if (options.threshold && options.isWithin) {
+				return options.threshold > (EARTH_RADIUS_KM * c);
+			} else {
+				return EARTH_RADIUS_KM * c;
+			}*/
+		}
    }
 })
 
