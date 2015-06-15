@@ -1,7 +1,7 @@
 <ion-view view-title="Dashboard">
   <ion-content class="padding">    
   
-        <div class="card">
+        <!--div class="card">
             <div class="item item-divider">
                 Your device information!
             </div>
@@ -24,7 +24,17 @@
             <div class="item item-divider text-right">
                 from <code>ngCordova</code>
             </div>
+        </div-->
+        
+        
+     <div class="list card">
+      <div class="item item-divider">Ping</div>
+      <div class="item item-body">
+        <div>
+          Position: {{pos.longitude}}, {{pos.latitude}}
         </div>
+      </div>
+    </div>       
   
     <div class="list card">
       <div class="item item-divider">Ping</div>
@@ -34,6 +44,7 @@
         </div>
       </div>
     </div>
+    
     <div class="list card">
       <div class="item item-divider">Majorstuen to Jernbanetorget</div>
       <div class="item item-body">
