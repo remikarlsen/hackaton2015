@@ -26,7 +26,6 @@ angular.module('starter.controllers', [])
             });
 
             var myStops = ruterService.getMyStops();//get map
-            //$scope.tmp = angular.copy(myStops);//debug
 
             ruterService.getStopInfo(myStops).then(function (data) {
                 $scope.myStops = _.map(myStops, function (stop) {
@@ -35,15 +34,11 @@ angular.module('starter.controllers', [])
             });
 
             function getClosestStop() {
-                var stopDistances = [];
-                //$scope.tmp = myStops;
                 _.each(myStops, function (stop) {
-                    var distanceToStop = utilService.getDistance($scope.currentPosition, {longitude: stop.X, latitude: stop.Y});
+                    var distanceToStop = utilService.getDistance($scope.currentPosition, stop.geoPosition);
                     _.extend(stop, {"distanceToStop": distanceToStop});
-                    stopDistances.push(stop);
                 });
-                $scope.tmp = stopDistances;
-                //finn nørmest stopp
+                $scope.closestStop = _.min(myStops, function(stop){return stop.distanceToStop;});
             }
 
             var posOptions = {timeout: 10000, enableHighAccuracy: false};

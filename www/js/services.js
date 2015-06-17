@@ -9,9 +9,9 @@ angular.module('starter.services', [])
             };
 
             var myStops = {};
-            myStops['Majorstuen'] = {ID: 3010200, desc: MyDestinations.HJEM};
-            myStops['Jernbanetorget'] = {ID: 3010011, desc: MyDestinations.JOBB};
-            myStops['Veitvedt'] = {ID: 3012040, desc: MyDestinations.SKOLE};
+            myStops['Majorstuen'] = {ID: 3010200, desc: MyDestinations.HJEM, geoPosition:{latitude:59.930264,longitude:10.714609}};
+            myStops['Jernbanetorget'] = {ID: 3010011, desc: MyDestinations.JOBB, geoPosition:{latitude:59.911856,longitude:10.751199}};
+            myStops['Veitvedt'] = {ID: 3012040, desc: MyDestinations.SKOLE, geoPosition:{latitude:59.944405,longitude:10.846672}};
 
             var myTravels = [
                 {name: 'majorstuenToJernbanetorget', from: myStops['Majorstuen'], to: myStops['Jernbanetorget']},
