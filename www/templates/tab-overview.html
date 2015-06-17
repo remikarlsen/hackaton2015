@@ -5,7 +5,7 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <div ng-if="firstChecked">
-        <div class="item item-divider" ng-click="toggleVisi('first')"><i class="icon" ng-class="{ 'ion-minus-round': visi.first , 'ion-plus-round': !visi.first}"></i> Reis til {{destinations[0].name}} med </div>
+        <div class="item item-divider" ng-click="toggleVisi('first')"><i class="icon" ng-class="{ 'ion-minus-round': visi.first , 'ion-plus-round': !visi.first}"></i> Reis til {{destinations[0].to.Name}} med </div>
         <ion-list ng-if="visi.first">
             <ion-item ng-repeat="item in destinations[0].proposals">
                 <div class="row row-center" >
@@ -17,7 +17,7 @@
         </div>
 
         <div ng-if="secondChecked">
-        <div class="item item-divider" ng-click="toggleVisi('second')"><i class="icon" ng-class="{ 'ion-minus-round': visi.second , 'ion-plus-round': !visi.second }"></i> Reis til {{destinations[1].name}} med </div>
+        <div class="item item-divider" ng-click="toggleVisi('second')"><i class="icon" ng-class="{ 'ion-minus-round': visi.second , 'ion-plus-round': !visi.second }"></i> Reis til {{destinations[1].to.Name}} med </div>
         <ion-list ng-if="visi.second">
             <ion-item ng-repeat="item in destinations[1].proposals">
                 <div class="row row-center" >
@@ -27,6 +27,15 @@
             </ion-item>
         </ion-list>
         </div>
+        
+       <div class="list card">
+      <div class="item item-divider">Closest</div>
+      <div class="item item-body">  
+        <div>
+        	{{closestStop}}
+        </div>           
+      </div>
+    </div> 
 
         <div class="item item-divider" ng-click="toggleVisi('settings')"><i class="icon ion-ios-gear"></i> Visning</div>
         <div>

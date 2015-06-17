@@ -3,24 +3,27 @@ angular.module('starter.controllers')
         $scope.firstChecked = $scope.secondChecked = true;
 
         $scope.home = {
-            name : 'Majorstuen'
+            name : 'Majorstuen [T-bane]'
         };
 
         $scope.destinations = [{
-            name : 'Jernbanetorget'
+            Name : 'Jernbanetorget'
         }, {
-            name : 'Veitvet'
+            Name : 'Veitvet'
         }];
+    
+        function setupStops(){       
+            var myStops = ruterService.getMyStopsMap();
+            console.log($scope.home.Name);
+            $scope.home.desc = myStops[$scope.home.Name].desc;
+            $scope.home.id = myStops[$scope.home.Name].ID;
 
-        var myStops = ruterService.getMyStopsMap();
-        $scope.home.desc = myStops[$scope.home.name].desc;
-        $scope.home.id = myStops[$scope.home.name].ID;
-
-        $scope.destinations = _.map($scope.destinations, function (dest) {
-                dest.desc = myStops[dest.name].desc;
-                dest.ID = myStops[dest.name].ID;
-            return dest;
-        });
+            $scope.destinations = _.map($scope.destinations, function (dest) {
+                dest.desc = myStops[dest.to.Name].desc;
+                dest.ID = myStops[dest.to.Name].ID;
+                return dest;
+            });
+        }
 
         $scope.updateDestinations = function () {
             _.each($scope.destinations, function (dest) {
@@ -47,7 +50,7 @@ angular.module('starter.controllers')
                 });
             });
         };
-        $scope.updateDestinations();
+       // $scope.updateDestinations();
 
         $scope.onCountDown = function () {
 
@@ -119,9 +122,7 @@ angular.module('starter.controllers')
             return item.from.desc;
         });
 
-        var myStopsArr = ruterService.getMyStops();//get array
-        //Hent mer mer stoppdata fra Ruter og dekorer objektet.
-        //Trenger X og Y-posisjon dersom man ikke vil hardkode dette       
+        var myStopsArr = ruterService.getMyStops();//get array, not map
         ruterService.getStopInfo(myStopsArr).then(function (data) {
             $scope.myStopsArr = _.map(myStopsArr, function (stop) {
                 return _.extend(stop, _.findWhere(data, {ID: stop.ID}));
@@ -137,17 +138,13 @@ angular.module('starter.controllers')
                 return stop.distanceToStop;
             });
             if ($scope.closestStop) {
-                $scope.home.name = $scope.closestStop.desc;
+                //Hent ut destinasjoner for nærmeste stopp og dekorer destinations med
+                $scope.home.Name = $scope.closestStop.Name;
+                console.log($scope.closestStop);
                 $scope.tmp = _.map($scope.myTravels[$scope.closestStop.desc], function (item) {
                     return item.to.desc;
                 });
-                /*TODO: fix
-                 $scope.destinations = [];                 
-                 $scope.destinations = _.each($scope.tmp, function(item){
-                 return {'name': item};
-                 });*/
             }
-
         }
 
         var posOptions = {timeout: 10000, enableHighAccuracy: false};
@@ -160,6 +157,12 @@ angular.module('starter.controllers')
                     if (myStopsArr) {
                         getClosestStop();
                     }
+                    //prepare stops based on closest stop
+                    console.log($scope.myTravels);
+                    $scope.destinations = $scope.myTravels[$scope.closestStop.desc];
+                    //console.log($scope.destinations);
+                    setupStops();                  
+                    $scope.updateDestinations();
 
                 }, function (err) {
                     // error
