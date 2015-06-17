@@ -111,7 +111,6 @@ angular.module('starter.controllers')
             settings : true
         };
         $scope.toggleVisi = function(group) {
-            console.log(group);
            $scope.visi[group] = !$scope.visi[group];
         };
 
