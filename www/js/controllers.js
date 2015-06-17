@@ -11,13 +11,6 @@ angular.module('starter.controllers', [])
              $scope.uuid = device.uuid;      
              });
              */
-            ruterService.getPing().success(function (data) {
-                $scope.pingresponse = data;
-            });
-
-            ruterService.getTravels('3010200', '3010011', '').success(function (data) {
-                $scope.majorstuenToJernbanetorget = data;
-            });
 
             $scope.MyDestinations = ruterService.getMyDestinations();
             $scope.myTravels = ruterService.getMyTravels();
@@ -27,11 +20,13 @@ angular.module('starter.controllers', [])
 
             var myStops = ruterService.getMyStops();//get map
 
-            ruterService.getStopInfo(myStops).then(function (data) {
+            //Hent mer mer stoppdata fra Ruter og dekorer objektet.
+            //Trenger X og Y-posisjon dersom man ikke vil hardkode dette       
+            /* ruterService.getStopInfo(myStops).then(function (data) {
                 $scope.myStops = _.map(myStops, function (stop) {
                     return _.extend(stop, _.findWhere(data, {ID: stop.ID}));
                 });
-            });
+            });*/
 
             function getClosestStop() {
                 _.each(myStops, function (stop) {
@@ -50,9 +45,6 @@ angular.module('starter.controllers', [])
                         $scope.currentPosition.longitude = position.coords.longitude;
                         if (myStops) {
                             getClosestStop();
-                        }
-                        else {
-                            $scope.tmp = "Not ready 1";
                         }
                     }, function (err) {
                         // error
@@ -75,9 +67,6 @@ angular.module('starter.controllers', [])
                         $scope.currentPosition.longitude = position.coords.longitude;
                         if (myStops) {
                             getClosestStop();
-                        }
-                        else {
-                            $scope.tmp = "Not ready 2";
                         }
                     });
 

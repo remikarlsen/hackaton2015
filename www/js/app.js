@@ -40,7 +40,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             .state('tab.overview', {
                 url: '/overview',
                 views: {
-                    'tab-dash': {
+                    'tab-overview': {
                         templateUrl: 'templates/tab-overview.html',
                         controller: 'OverviewCtrl'
                     }
