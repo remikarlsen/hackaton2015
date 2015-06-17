@@ -1,23 +1,23 @@
 <ion-view view-title="Posisjon: {{home.name}}!">
     <ion-content>
 
-        <div class="item item-divider">Forslag for {{destinations[0].name}}</div>
+        <div class="item item-divider">Reis til {{destinations[0].name}} med </div>
         <ion-list>
             <ion-item ng-repeat="item in destinations[0].proposals">
-                <div class="row">
-                    <div class="col">{{item.line}} <i class="icon ion-android-subway icon-accessory"  ng-style="{ 'font-size': item.iconHTML }"></i></div>
-                    <div class="col-75">{{item.time | date : 'H:mm'}}   <div ng-style="{ 'color': item.colorHTML }">( {{item.timeObj.minutes}} minuter og {{item.timeObj.seconds}} sekunder igjen..)</div></div>
+                <div class="row row-center" >
+                    <div class="col"><i class="icon ion-android-subway" ng-style="{ 'font-size': item.iconHTML , 'color': item.colorHTML }"></i></div>
+                    <div class="col-75"><h2>Linje nr: {{item.line}} - {{item.time | date : 'H:mm'}}</h2> <div ng-style="{ 'color': item.colorHTML }">( {{item.timeObj.minutes}} minuter og {{item.timeObj.seconds}} sekunder igjen..)</div></div>
                 </div>
             </ion-item>
         </ion-list>
 
 
-        <div class="item item-divider">Forslag for {{destinations[1].name}}</div>
+        <div class="item item-divider">Reis til {{destinations[1].name}} med </div>
         <ion-list>
             <ion-item ng-repeat="item in destinations[1].proposals">
-                <div class="row">
-                <div class="col">{{item.line}} <i class="icon ion-android-subway icon-accessory" ng-style="{ 'font-size': item.iconHTML }"></i></div>
-                    <div class="col-75">{{item.time | date : 'H:mm'}}   <div ng-style="{ 'color': item.colorHTML }">( {{item.timeObj.minutes}} minuter og {{item.timeObj.seconds}} sekunder igjen..)</div></div>
+                <div class="row row-center" >
+                    <div class="col"><i class="icon ion-android-subway" ng-style="{ 'font-size': item.iconHTML , 'color': item.colorHTML }"></i></div>
+                    <div class="col-75"><h2>Linje nr: {{item.line}} - {{item.time | date : 'H:mm'}}</h2> <div ng-style="{ 'color': item.colorHTML }">( {{item.timeObj.minutes}} minuter og {{item.timeObj.seconds}} sekunder igjen..)</div></div>
                 </div>
             </ion-item>
         </ion-list>

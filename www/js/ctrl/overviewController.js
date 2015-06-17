@@ -32,14 +32,14 @@ angular.module('starter.controllers')
                         line : item.Stages[0].LineID,
                         diff : differ,
                         color : {
-                            r: 0, g: 255, b: 0
+                            r: 0, g: 255, b: 50
                         },
                         colorHTML : 'rgb(0, 255, 0)',
                         colorStep : colorStep,
                         timeObj : $scope.getTime(differ),
-                        iconSize : 10,
+                        iconSize : 30,
                         iconStep : iconStep,
-                        iconHTML : '10px'
+                        iconHTML : '30px'
                     }
                 });
             });
@@ -92,7 +92,6 @@ angular.module('starter.controllers')
         };
 
         $scope.roundSeconds = function(date) {
-            date.setMinutes(date.getMinutes() + 1);
             date.setSeconds(0);
             return date;
         }
