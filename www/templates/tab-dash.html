@@ -1,4 +1,4 @@
-<ion-view view-title="Dashboard">
+<ion-view view-title="Debug- og testplanel">
   <ion-content class="padding">    
   
         <!--div class="card">
@@ -45,10 +45,10 @@
     </div>   
            
      <div class="list card">
-      <div class="item item-divider">Ping</div>
+      <div class="item item-divider">Closest stop</div>
       <div class="item item-body">
         <div>
-          Distance: {{distance}} meters
+          {{closestStop.desc}} v/  {{closestStop.Name}}. {{closestStop.distanceToStop}} meters
         </div>
       </div>
     </div>         
@@ -62,14 +62,6 @@
       </div>
     </div>       
     
-    <div class="list card">
-      <div class="item item-divider">Majorstuen to Jernbanetorget</div>
-      <div class="item item-body">
-        <div>
-        	{{majorstuenToJernbanetorget}}
-        </div>
-      </div>
-    </div> 
     <div class="list card">
       <div class="item item-divider">My travels by group</div>
       <div class="item item-body">  

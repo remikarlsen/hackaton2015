@@ -22,11 +22,11 @@ angular.module('starter.controllers', [])
 
             //Hent mer mer stoppdata fra Ruter og dekorer objektet.
             //Trenger X og Y-posisjon dersom man ikke vil hardkode dette       
-            /* ruterService.getStopInfo(myStops).then(function (data) {
+            ruterService.getStopInfo(myStops).then(function (data) {
                 $scope.myStops = _.map(myStops, function (stop) {
                     return _.extend(stop, _.findWhere(data, {ID: stop.ID}));
                 });
-            });*/
+            });
 
             function getClosestStop() {
                 _.each(myStops, function (stop) {
