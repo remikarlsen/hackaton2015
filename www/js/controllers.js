@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-        .controller('DashCtrl', function ($ionicPlatform, $scope, ruterService, utilService, $cordovaDevice, $cordovaGeolocation) {           
+        .controller('DashCtrl', function ($ionicPlatform, $scope, ruterService, utilService, $cordovaDevice, $cordovaGeolocation) {
             /* 
              * NB: Fungerer kun i simulator og på device
              $ionicPlatform.ready(function() {          
@@ -26,7 +26,7 @@ angular.module('starter.controllers', [])
             });
 
             var myStops = ruterService.getMyStops();//get map
-            $scope.tmp = angular.copy(myStops);//debug
+            //$scope.tmp = angular.copy(myStops);//debug
 
             ruterService.getStopInfo(myStops).then(function (data) {
                 $scope.myStops = _.map(myStops, function (stop) {
@@ -34,17 +34,17 @@ angular.module('starter.controllers', [])
                 });
             });
 
-            var start = {
-                latitude: 38.898556,
-                longitude: -77.037852
-            };
-
-            var end = {
-                latitude: 38.897147,
-                longitude: -77.043934
-            };
-
-            $scope.distance = utilService.getDistance(start, end);
+            function getClosestStop() {
+                var stopDistances = [];
+                //$scope.tmp = myStops;
+                _.each(myStops, function (stop) {
+                    var distanceToStop = utilService.getDistance($scope.currentPosition, {longitude: stop.X, latitude: stop.Y});
+                    _.extend(stop, {"distanceToStop": distanceToStop});
+                    stopDistances.push(stop);
+                });
+                $scope.tmp = stopDistances;
+                //finn nørmest stopp
+            }
 
             var posOptions = {timeout: 10000, enableHighAccuracy: false};
             $scope.currentPosition = {};
@@ -53,6 +53,12 @@ angular.module('starter.controllers', [])
                     .then(function (position) {
                         $scope.currentPosition.latitude = position.coords.latitude;
                         $scope.currentPosition.longitude = position.coords.longitude;
+                        if (myStops) {
+                            getClosestStop();
+                        }
+                        else {
+                            $scope.tmp = "Not ready 1";
+                        }
                     }, function (err) {
                         // error
                     });
@@ -72,6 +78,12 @@ angular.module('starter.controllers', [])
                     function (position) {
                         $scope.currentPosition.latitude = position.coords.latitude;
                         $scope.currentPosition.longitude = position.coords.longitude;
+                        if (myStops) {
+                            getClosestStop();
+                        }
+                        else {
+                            $scope.tmp = "Not ready 2";
+                        }
                     });
 
             watch.clearWatch();

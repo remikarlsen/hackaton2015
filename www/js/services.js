@@ -83,7 +83,7 @@ angular.module('starter.services', [])
                     var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                             Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
                     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                    return EARTH_RADIUS_KM * c * 1000;
+                    return Math.round(EARTH_RADIUS_KM * c * 1000);
                 }
             };
         })
