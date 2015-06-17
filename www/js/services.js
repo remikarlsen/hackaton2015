@@ -11,15 +11,15 @@ angular.module('starter.services', [])
             var myStops = {};
             myStops['Majorstuen'] = {ID: 3010200, desc: MyDestinations.HJEM, geoPosition:{latitude:59.930264,longitude:10.714609}};
             myStops['Jernbanetorget'] = {ID: 3010011, desc: MyDestinations.JOBB, geoPosition:{latitude:59.911856,longitude:10.751199}};
-            myStops['Veitvedt'] = {ID: 3012040, desc: MyDestinations.SKOLE, geoPosition:{latitude:59.944405,longitude:10.846672}};
+            myStops['Veitvet'] = {ID: 3012040, desc: MyDestinations.SKOLE, geoPosition:{latitude:59.944405,longitude:10.846672}};
 
             var myTravels = [
                 {name: 'majorstuenToJernbanetorget', from: myStops['Majorstuen'], to: myStops['Jernbanetorget']},
-                {name: 'veitvedtToJernbanetorget', from: myStops['Veitvedt'], to: myStops['Jernbanetorget']},
-                {name: 'jernbanetorgetToVeitvedt', from: myStops['Jernbanetorget'], to: myStops['Veitvedt']},
-                {name: 'majorstuenToVeitvedt', from: myStops['Majorstuen'], to: myStops['Veitvedt']},
+                {name: 'veitvedtToJernbanetorget', from: myStops['Veitvet'], to: myStops['Jernbanetorget']},
+                {name: 'jernbanetorgetToVeitvedt', from: myStops['Jernbanetorget'], to: myStops['Veitvet']},
+                {name: 'majorstuenToVeitvedt', from: myStops['Majorstuen'], to: myStops['Veitvet']},
                 {name: 'jernbanetorgetToMajorstuen', from: myStops['Jernbanetorget'], to: myStops['Majorstuen']},
-                {name: 'veitvedtToMajorstuen', from: myStops['Veitvedt'], to: myStops['Majorstuen']}
+                {name: 'veitvedtToMajorstuen', from: myStops['Veitvet'], to: myStops['Majorstuen']}
             ];
 
             return {

@@ -1,36 +1,37 @@
 <ion-view view-title="Posisjon: {{home.name}}">
     <ion-content>
-
-        <div class="item item-divider">Forslag for {{destinations[0].name}}</div>
-        <ion-list>
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="doRefresh()">
+        </ion-refresher>
+        <div ng-if="firstChecked">
+        <div class="item item-divider" ng-click="toggleVisi('first')"><i class="icon" ng-class="{ 'ion-minus-round': visi.first , 'ion-plus-round': !visi.first}"></i> Reis til {{destinations[0].name}} med </div>
+        <ion-list ng-if="visi.first">
             <ion-item ng-repeat="item in destinations[0].proposals">
-                <div class="row">
-                    <div class="col">{{item.line}} <i class="icon ion-android-subway icon-accessory"  ng-style="{ 'font-size': item.iconHTML }"></i></div>
-                    <div class="col-75">{{item.time | date : 'H:mm'}}   <div ng-style="{ 'color': item.colorHTML }">( {{item.timeObj.minutes}} min og {{item.timeObj.seconds}} sek igjen..)</div></div>
+                <div class="row row-center" >
+                    <div class="col"><i class="icon ion-android-subway" ng-style="{ 'font-size': item.iconHTML , 'color': item.colorHTML }"></i></div>
+                    <div class="col-75"><h2>Linje nr: {{item.line}} - {{item.time | date : 'H:mm'}}</h2> <div ng-style="{ 'color': item.colorHTML }">( {{item.timeObj.minutes}} min og {{item.timeObj.seconds}} sek igjen..)</div></div>
                 </div>
             </ion-item>
         </ion-list>
+        </div>
 
-
-        <div class="item item-divider">Forslag for {{destinations[1].name}}</div>
-        <ion-list>
+        <div ng-if="secondChecked">
+        <div class="item item-divider" ng-click="toggleVisi('second')"><i class="icon" ng-class="{ 'ion-minus-round': visi.second , 'ion-plus-round': !visi.second }"></i> Reis til {{destinations[1].name}} med </div>
+        <ion-list ng-if="visi.second">
             <ion-item ng-repeat="item in destinations[1].proposals">
-                <div class="row">
-                <div class="col">{{item.line}} <i class="icon ion-android-subway icon-accessory" ng-style="{ 'font-size': item.iconHTML }"></i></div>
-                    <div class="col-75">{{item.time | date : 'H:mm'}}   <div ng-style="{ 'color': item.colorHTML }">( {{item.timeObj.minutes}} min og {{item.timeObj.seconds}} sek igjen..)</div></div>
+                <div class="row row-center" >
+                    <div class="col"><i class="icon ion-android-subway" ng-style="{ 'font-size': item.iconHTML , 'color': item.colorHTML }"></i></div>
+                    <div class="col-75"><h2>Linje nr: {{item.line}} - {{item.time | date : 'H:mm'}}</h2> <div ng-style="{ 'color': item.colorHTML }">( {{item.timeObj.minutes}} min og {{item.timeObj.seconds}} sek igjen..)</div></div>
                 </div>
             </ion-item>
         </ion-list>
-        
-            <div class="list card">
-      <!--div class="item item-divider">Tmp</div>
-      <div class="item item-body">  
-        <div>
-        	{{tmp}}
-        </div>           
-      </div>
-    </div-->   
-    
+        </div>
 
+        <div class="item item-divider" ng-click="toggleVisi('settings')"><i class="icon ion-ios-gear"></i> Visning</div>
+        <div>
+        <ion-checkbox ng-model="firstChecked" ng-show="visi.settings">{{destinations[0].name}}</ion-checkbox>
+        <ion-checkbox ng-model="secondChecked" ng-show="visi.settings">{{destinations[1].name}}</ion-checkbox>
+        </div>
     </ion-content>
 </ion-view>
