@@ -1,5 +1,6 @@
 angular.module('starter.controllers')
     .controller('OverviewCtrl', function($ionicPlatform, $scope, ruterService, $filter, $timeout, $cordovaDevice, $cordovaGeolocation) {
+        $scope.firstChecked = $scope.secondChecked = true;
 
         $scope.home = {
             name : 'Majorstuen'
@@ -8,7 +9,7 @@ angular.module('starter.controllers')
         $scope.destinations = [{
             name : 'Jernbanetorget'
         }, {
-            name : 'Veitvedt'
+            name : 'Veitvet'
         }];
 
         var myStops = ruterService.getMyStopsMap();
@@ -21,29 +22,32 @@ angular.module('starter.controllers')
             return dest;
         });
 
-        _.each($scope.destinations, function (dest) {
-            ruterService.getTravels($scope.home.id, dest.ID).success(function (data){
-                dest.proposals = _.map(data.TravelProposals, function (item) {
-                    var differ = Math.abs(new Number(Math.ceil((new Date($filter('date')(item.DepartureTime, 'medium')).getTime() - $scope.roundSeconds(new Date()).getTime()) / 1000)));
-                    var colorStep = 255 / differ;
-                    var iconStep = 50 / differ;
-                    return {
-                        time : item.DepartureTime,
-                        line : item.Stages[0].LineID,
-                        diff : differ,
-                        color : {
-                            r: 0, g: 255, b: 20
-                        },
-                        colorHTML : 'rgb(0, 255, 0)',
-                        colorStep : colorStep,
-                        timeObj : $scope.getTime(differ),
-                        iconSize : 30,
-                        iconStep : iconStep,
-                        iconHTML : '30px'
-                    }
+        $scope.updateDestinations = function () {
+            _.each($scope.destinations, function (dest) {
+                ruterService.getTravels($scope.home.id, dest.ID).success(function (data){
+                    dest.proposals = _.map(data.TravelProposals, function (item) {
+                        var differ = Math.abs(new Number(Math.ceil((new Date($filter('date')(item.DepartureTime, 'medium')).getTime() - $scope.roundSeconds(new Date()).getTime()) / 1000)));
+                        var colorStep = 255 / differ;
+                        var iconStep = 50 / differ;
+                        return {
+                            time : item.DepartureTime,
+                            line : item.Stages[0].LineID,
+                            diff : differ,
+                            color : {
+                                r: 0, g: 255, b: 20
+                            },
+                            colorHTML : 'rgb(0, 255, 0)',
+                            colorStep : colorStep,
+                            timeObj : $scope.getTime(differ),
+                            iconSize : 30,
+                            iconStep : iconStep,
+                            iconHTML : '30px'
+                        }
+                    });
                 });
             });
-        });
+        };
+        $scope.updateDestinations();
 
         $scope.onCountDown = function () {
 
@@ -94,5 +98,21 @@ angular.module('starter.controllers')
         $scope.roundSeconds = function(date) {
             date.setSeconds(0);
             return date;
-        }
+        };
+
+        $scope.doRefresh = function () {
+            $scope.updateDestinations();
+            $scope.$broadcast('scroll.refreshComplete');
+        };
+
+        $scope.visi = {
+            first : true,
+            second : true,
+            settings : true
+        };
+        $scope.toggleVisi = function(group) {
+            console.log(group);
+           $scope.visi[group] = !$scope.visi[group];
+        };
+
     });
