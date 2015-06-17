@@ -15,11 +15,10 @@ angular.module('starter.controllers', [])
             $scope.MyDestinations = ruterService.getMyDestinations();
             $scope.myTravels = ruterService.getMyTravels();
             $scope.myTravels = _.groupBy($scope.myTravels, function (item) {
-                return item.to.desc;
+                return item.from.desc;
             });
 
             var myStops = ruterService.getMyStops();//get map
-
             //Hent mer mer stoppdata fra Ruter og dekorer objektet.
             //Trenger X og Y-posisjon dersom man ikke vil hardkode dette       
             ruterService.getStopInfo(myStops).then(function (data) {
@@ -46,17 +45,17 @@ angular.module('starter.controllers', [])
                         if (myStops) {
                             getClosestStop();
                         }
+                        
                     }, function (err) {
                         // error
                     });
 
-            var watchOptions = {
+            var geoWatchOptions = {
                 frequency: 1000,
                 timeout: 3000,
                 enableHighAccuracy: false // may cause errors if true
             };
-
-            var watch = $cordovaGeolocation.watchPosition(watchOptions);
+            var watch = $cordovaGeolocation.watchPosition(geoWatchOptions);
             watch.then(
                     null,
                     function (err) {
@@ -69,7 +68,6 @@ angular.module('starter.controllers', [])
                             getClosestStop();
                         }
                     });
-
             watch.clearWatch();
 
         })
