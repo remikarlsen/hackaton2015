@@ -26,13 +26,13 @@ angular.module('starter.controllers')
                 dest.proposals = _.map(data.TravelProposals, function (item) {
                     var differ = Math.abs(new Number(Math.ceil((new Date($filter('date')(item.DepartureTime, 'medium')).getTime() - $scope.roundSeconds(new Date()).getTime()) / 1000)));
                     var colorStep = 255 / differ;
-                    var iconStep = 80 / differ;
+                    var iconStep = 50 / differ;
                     return {
                         time : item.DepartureTime,
                         line : item.Stages[0].LineID,
                         diff : differ,
                         color : {
-                            r: 0, g: 255, b: 50
+                            r: 0, g: 255, b: 20
                         },
                         colorHTML : 'rgb(0, 255, 0)',
                         colorStep : colorStep,
