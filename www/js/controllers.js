@@ -25,11 +25,9 @@ angular.module('starter.controllers', [])
                 return item.to.desc;
             });
 
-            var myStops = ruterService.getMyStops();
+            var myStops = ruterService.getMyStops();//get map
+            $scope.tmp = angular.copy(myStops);//debug
 
-            //DEBUG
-            var myStops = [{ID: 3010200, test: 'a'}, {ID: 3010011, test: 'b'}, {ID: 3011910, test: 'c'}];
-            
             ruterService.getStopInfo(myStops).then(function (data) {
                 $scope.myStops = _.map(myStops, function (stop) {
                     return _.extend(stop, _.findWhere(data, {ID: stop.ID}));

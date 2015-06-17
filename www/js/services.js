@@ -9,9 +9,9 @@ angular.module('starter.services', [])
             };
 
             var myStops = {};
-            myStops['Majorstuen'] = {id: '3010200', desc: MyDestinations.HJEM};
-            myStops['Jernbanetorget'] = {id: '3010011', desc: MyDestinations.JOBB};
-            myStops['Veitvedt'] = {id: '3012040', desc: MyDestinations.SKOLE};
+            myStops['Majorstuen'] = {ID: 3010200, desc: MyDestinations.HJEM};
+            myStops['Jernbanetorget'] = {ID: 3010011, desc: MyDestinations.JOBB};
+            myStops['Veitvedt'] = {ID: 3012040, desc: MyDestinations.SKOLE};
 
             var myTravels = [
                 {name: 'majorstuenToJernbanetorget', from: myStops['Majorstuen'], to: myStops['Jernbanetorget']},
@@ -41,8 +41,10 @@ angular.module('starter.services', [])
                     return $q.all(promises);
                 },
                 getMyStops: function () {
-                    return myStops;
-           },
+                    return _.map(myStops, function(stop){
+                        return stop;
+                    });
+                },
                 getPing: function () {
                     return $http({
                         url: 'http://reisapi.ruter.no/heartbeat/index?json=true',
