@@ -24,11 +24,11 @@ angular.module('starter.controllers')
         _.each($scope.destinations, function (dest) {
             ruterService.getTravels($scope.home.id, dest.ID).success(function (data){
                 dest.proposals = _.map(data.TravelProposals, function (item) {
-                    var differ = new Number(Math.ceil((new Date($filter('date')(item.ArrivalTime, 'medium')).getTime() - new Date().getTime()) / 1000));
+                    var differ = Math.abs(new Number(Math.ceil((new Date($filter('date')(item.DepartureTime, 'medium')).getTime() - $scope.roundSeconds(new Date()).getTime()) / 1000)));
                     var colorStep = 255 / differ;
                     var iconStep = 80 / differ;
                     return {
-                        time : item.ArrivalTime,
+                        time : item.DepartureTime,
                         line : item.Stages[0].LineID,
                         diff : differ,
                         color : {
@@ -46,13 +46,24 @@ angular.module('starter.controllers')
         });
 
         $scope.onCountDown = function () {
-            $scope.destinations = _.each($scope.destinations, function(dest) {
+
+            $scope.destinations = _.map($scope.destinations, function(dest) {
+                dest.proposals = _.filter(dest.proposals, function (props) {
+                    if (props.diff === 0 || props.diff < 0) {
+                        return false;
+                    }
+                    return true;
+                });
+                return dest;
+            });
+
+            _.each($scope.destinations, function(dest) {
                 _.each(dest.proposals, function (props) {
                     if (props.diff !== 0) {
                         props.diff = props.diff - 1;
                         props.timeObj = $scope.getTime(props.diff);
                     }
-                    if (!props.iconSize >= 80) {
+                    if (!(props.iconSize >= 80)) {
                         props.iconSize = props.iconSize + props.iconStep;
                         props.iconHTML = props.iconSize + 'px';
                     }
@@ -69,10 +80,6 @@ angular.module('starter.controllers')
         };
         var countdown = $timeout($scope.onCountDown, 1000);
 
-        $scope.getHour = function (time) {
-            return Math.floor(time / 60 / 60);
-        };
-
         $scope.getTime = function (time) {
             var hours = Math.floor(time / 60 / 60);
             var minutes = Math.floor((time - hours * 60 * 60) / 60);
@@ -82,5 +89,11 @@ angular.module('starter.controllers')
                 minutes : minutes,
                 seconds : seconds
             };
+        };
+
+        $scope.roundSeconds = function(date) {
+            date.setMinutes(date.getMinutes() + 1);
+            date.setSeconds(0);
+            return date;
         }
     });
