@@ -35,7 +35,8 @@ angular.module('starter.controllers')
                             r: 0, g: 255, b: 0
                         },
                         colorHTML : 'rgb(0, 255, 0)',
-                        colorStep : colorStep
+                        colorStep : colorStep,
+                        timeObj : $scope.getTime(differ)
                     }
                 });
             });
@@ -46,6 +47,7 @@ angular.module('starter.controllers')
                 _.each(dest.proposals, function (props) {
                     if (props.diff !== 0) {
                         props.diff = props.diff - 1;
+                        props.timeObj = $scope.getTime(props.diff);
                     }
                     props.colorHTML = $scope.getColor(props);
                 });
@@ -60,4 +62,18 @@ angular.module('starter.controllers')
         };
         var countdown = $timeout($scope.onCountDown, 1000);
 
+        $scope.getHour = function (time) {
+            return Math.floor(time / 60 / 60);
+        };
+
+        $scope.getTime = function (time) {
+            var hours = Math.floor(time / 60 / 60);
+            var minutes = Math.floor((time - hours * 60 * 60) / 60);
+            var seconds = Math.floor(time - hours * 60 * 60 - minutes * 60);
+            return {
+                hours : hours,
+                minutes : minutes,
+                seconds : seconds
+            };
+        }
     });
