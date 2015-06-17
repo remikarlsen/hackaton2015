@@ -64,7 +64,7 @@ angular.module('starter.services', [])
                     var dateFilter = $filter('date');
                     var filteredDate = dateFilter(new Date(), 'ddMMyyyyHHmmss');
                     return $http({
-                        url: 'http://reisapi.ruter.no/Travel/GetTravels?fromplace=' + from + '&toplace=' + to + '&isafter=True&proposals=3&transporttypes=8',
+                        url: 'http://reisapi.ruter.no/Travel/GetTravels?fromplace=' + from + '&toplace=' + to + '&isafter=true&proposals=3&transporttypes=8',
                         method: 'GET'
                     });
                 }
