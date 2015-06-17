@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-    .controller('OverviewCtrl', function($ionicPlatform, $scope, ruterService, utilService, $cordovaDevice, $cordovaGeolocation) {
+    .controller('OverviewCtrl', function($ionicPlatform, $scope, ruterService, $filter, $timeout, $cordovaDevice, $cordovaGeolocation) {
 
         $scope.home = {
             name : 'Majorstuen'
@@ -24,14 +24,24 @@ angular.module('starter.controllers')
         _.each($scope.destinations, function (dest) {
             ruterService.getTravels($scope.home.id, dest.ID).success(function (data){
                 dest.proposals = _.map(data.TravelProposals, function (item) {
-                    console.log(item);
                     return {
                         time : item.ArrivalTime,
-                        line : item.Stages[0].LineID
+                        line : item.Stages[0].LineID,
+                        diff : new Number(Math.ceil((new Date($filter('date')(item.ArrivalTime, 'medium')).getTime() - new Date().getTime()) / 1000))
                     }
                 });
             });
         });
 
+        $scope.onCountDown = function () {
+            $scope.destinations = _.each($scope.destinations, function(dest) {
+                _.each(dest.proposals, function (props) {
+                    props.diff = props.diff - 1;
+                });
+            });
+            countdown = $timeout($scope.onCountDown, 1000);
+        };
+
+        var countdown = $timeout($scope.onCountDown, 1000);
 
     });
