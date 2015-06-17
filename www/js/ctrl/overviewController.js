@@ -22,9 +22,9 @@ angular.module('starter.controllers')
         });
 
         _.each($scope.destinations, function (dest) {
-            console.log(dest);
             ruterService.getTravels($scope.home.id, dest.ID).success(function (data){
                 dest.proposals = _.map(data.TravelProposals, function (item) {
+                    console.log(item);
                     return {
                         time : item.ArrivalTime,
                         line : item.Stages[0].LineID
