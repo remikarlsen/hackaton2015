@@ -6,7 +6,7 @@
             <ion-item ng-repeat="item in destinations[0].proposals">
                 <div class="row">
                     <div class="col">{{item.line}} <i class="icon ion-android-subway icon-accessory"></i></div>
-                    <div class="col-75">{{item.time | date : 'HH:mm:ss'}}</div>
+                    <div class="col-75">{{item.time | date : 'H:mm:ss'}}   <div ng-style="{ 'color': item.colorHTML }">({{item.diff}} sekunder igjen..)</div></div>
                 </div>
             </ion-item>
         </ion-list>
@@ -14,10 +14,10 @@
 
         <div class="item item-divider">Forslag for {{destinations[1].name}}</div>
         <ion-list>
-            <ion-item ng-repeat="item in destinations[0].proposals">
+            <ion-item ng-repeat="item in destinations[1].proposals">
                 <div class="row">
                 <div class="col">{{item.line}} <i class="icon ion-android-subway icon-accessory"></i></div>
-                <div class="col-75">{{item.time | date : 'HH:mm:ss'}}</div>
+                <div class="col-75">{{item.time | date : 'H:mm:ss'}}     <div ng-style="item.color">({{item.diff}} sekunder igjen..)</div></div>
                 </div>
             </ion-item>
         </ion-list>

@@ -45,6 +45,9 @@ angular.module('starter.services', [])
                         return stop;
                     });
                 },
+                getMyStopsMap: function () {
+                  return myStops;
+                },
                 getPing: function () {
                     return $http({
                         url: 'http://reisapi.ruter.no/heartbeat/index?json=true',
@@ -57,11 +60,11 @@ angular.module('starter.services', [])
                 getMyDestinations: function () {
                     return MyDestinations;
                 },
-                getTravels: function (from, to, line) {
+                getTravels: function (from, to) {
                     var dateFilter = $filter('date');
-                    var filteredDate = dateFilter(new Date(), 'ddMMyyyyhhmmss');
+                    var filteredDate = dateFilter(new Date(), 'ddMMyyyyHHmmss');
                     return $http({
-                        url: 'http://reisapi.ruter.no/Travel/GetTravels?fromplace=' + from + '&toplace=' + to + '&isafter=True&time=' + filteredDate + '&proposals=3&transporttypes=8&linenames=' + line,
+                        url: 'http://reisapi.ruter.no/Travel/GetTravels?fromplace=' + from + '&toplace=' + to + '&isafter=True&time=' + filteredDate + '&proposals=3&transporttypes=8',
                         method: 'GET'
                     });
                 }
