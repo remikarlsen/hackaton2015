@@ -47,7 +47,7 @@ angular.module('starter.services', [])
                     return $http({
                         url: 'http://reisapi.ruter.no/heartbeat/index?json=true',
                         method: 'GET'
-                    })
+                    });
                 },
                 getMyTravels: function () {
                     return myTravels;
@@ -57,13 +57,13 @@ angular.module('starter.services', [])
                 },
                 getTravels: function (from, to, line) {
                     var dateFilter = $filter('date');
-                    var filteredDate = dateFilter(new Date(), 'ddMMyyyyhhmmss')
+                    var filteredDate = dateFilter(new Date(), 'ddMMyyyyhhmmss');
                     return $http({
                         url: 'http://reisapi.ruter.no/Travel/GetTravels?fromplace=' + from + '&toplace=' + to + '&isafter=True&time=' + filteredDate + '&proposals=3&transporttypes=8&linenames=' + line,
                         method: 'GET'
-                    })
-                },
-            }
+                    });
+                }
+            };
         })
 
         .factory('utilService', function () {
@@ -83,7 +83,7 @@ angular.module('starter.services', [])
                     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
                     return EARTH_RADIUS_KM * c * 1000;
                 }
-            }
+            };
         })
 
         .factory('Chats', function () {

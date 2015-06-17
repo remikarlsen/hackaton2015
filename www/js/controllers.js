@@ -1,8 +1,16 @@
 angular.module('starter.controllers', [])
 
-        .controller('DashCtrl', function ($ionicPlatform, $scope, ruterService, utilService, $cordovaDevice, $cordovaGeolocation) {
-            $scope.pingresponse = "Test";
-
+        .controller('DashCtrl', function ($ionicPlatform, $scope, ruterService, utilService, $cordovaDevice, $cordovaGeolocation) {           
+            /* 
+             * NB: Fungerer kun i simulator og på device
+             $ionicPlatform.ready(function() {          
+             var device = $cordovaDevice.getDevice();
+             $scope.manufacturer = device.manufacturer;
+             $scope.model = device.model;
+             $scope.platform = device.platform;
+             $scope.uuid = device.uuid;      
+             });
+             */
             ruterService.getPing().success(function (data) {
                 $scope.pingresponse = data;
             });
@@ -14,30 +22,19 @@ angular.module('starter.controllers', [])
             $scope.MyDestinations = ruterService.getMyDestinations();
             $scope.myTravels = ruterService.getMyTravels();
             $scope.myTravels = _.groupBy($scope.myTravels, function (item) {
-                return item.to.desc
+                return item.to.desc;
             });
-
-            /*
-             $ionicPlatform.ready(function() {
-             // getting device infor from $cordovaDevice
-             var device = $cordovaDevice.getDevice();
-             $scope.manufacturer = device.manufacturer;
-             $scope.model = device.model;
-             $scope.platform = device.platform;
-             $scope.uuid = device.uuid;      
-             });
-             */
 
             var myStops = ruterService.getMyStops();
 
             //DEBUG
             var myStops = [{ID: 3010200, test: 'a'}, {ID: 3010011, test: 'b'}, {ID: 3011910, test: 'c'}];
-            var tmp = [];
+            
             ruterService.getStopInfo(myStops).then(function (data) {
                 $scope.myStops = _.map(myStops, function (stop) {
                     return _.extend(stop, _.findWhere(data, {ID: stop.ID}));
                 });
-            })
+            });
 
             var start = {
                 latitude: 38.898556,
@@ -52,12 +49,12 @@ angular.module('starter.controllers', [])
             $scope.distance = utilService.getDistance(start, end);
 
             var posOptions = {timeout: 10000, enableHighAccuracy: false};
-            $scope.pos = {};
+            $scope.currentPosition = {};
             $cordovaGeolocation
                     .getCurrentPosition(posOptions)
                     .then(function (position) {
-                        $scope.pos.latitude = position.coords.latitude
-                        $scope.pos.longitude = position.coords.longitude
+                        $scope.currentPosition.latitude = position.coords.latitude;
+                        $scope.currentPosition.longitude = position.coords.longitude;
                     }, function (err) {
                         // error
                     });
@@ -75,8 +72,8 @@ angular.module('starter.controllers', [])
                         // error
                     },
                     function (position) {
-                        $scope.pos.latitude = position.coords.latitude
-                        $scope.pos.longitude = position.coords.longitude
+                        $scope.currentPosition.latitude = position.coords.latitude;
+                        $scope.currentPosition.longitude = position.coords.longitude;
                     });
 
             watch.clearWatch();
@@ -95,7 +92,7 @@ angular.module('starter.controllers', [])
             $scope.chats = Chats.all();
             $scope.remove = function (chat) {
                 Chats.remove(chat);
-            }
+            };
         })
 
         .controller('ChatDetailCtrl', function ($scope, $stateParams, Chats) {
