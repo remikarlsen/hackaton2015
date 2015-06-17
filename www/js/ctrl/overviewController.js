@@ -26,7 +26,7 @@ angular.module('starter.controllers')
                 dest.proposals = _.map(data.TravelProposals, function (item) {
                     var differ = new Number(Math.ceil((new Date($filter('date')(item.ArrivalTime, 'medium')).getTime() - new Date().getTime()) / 1000));
                     var colorStep = 255 / differ;
-                    console.log(colorStep);
+                    var iconStep = 80 / differ;
                     return {
                         time : item.ArrivalTime,
                         line : item.Stages[0].LineID,
@@ -36,7 +36,10 @@ angular.module('starter.controllers')
                         },
                         colorHTML : 'rgb(0, 255, 0)',
                         colorStep : colorStep,
-                        timeObj : $scope.getTime(differ)
+                        timeObj : $scope.getTime(differ),
+                        iconSize : 10,
+                        iconStep : iconStep,
+                        iconHTML : '10px'
                     }
                 });
             });
@@ -48,6 +51,10 @@ angular.module('starter.controllers')
                     if (props.diff !== 0) {
                         props.diff = props.diff - 1;
                         props.timeObj = $scope.getTime(props.diff);
+                    }
+                    if (!props.iconSize >= 80) {
+                        props.iconSize = props.iconSize + props.iconStep;
+                        props.iconHTML = props.iconSize + 'px';
                     }
                     props.colorHTML = $scope.getColor(props);
                 });
