@@ -3,7 +3,6 @@ angular.module('starter.controllers', [])
 .controller('DashCtrl', function($ionicPlatform, $scope, ruterService, utilService, $cordovaDevice, $cordovaGeolocation) {
 	$scope.pingresponse = "Test";
 
-/*
     ruterService.getPing().success(function(data){
     	$scope.pingresponse = data;
 	});
@@ -11,13 +10,12 @@ angular.module('starter.controllers', [])
     ruterService.getTravels('3010200', '3010011', 5).success(function(data){
     	$scope.majorstuenToJernbanetorget = data;
 	});	
-
 		
 	$scope.MyDestinations = ruterService.getMyDestinations();
 	$scope.myTravels = ruterService.getMyTravels();
 	$scope.myTravels = _.groupBy($scope.myTravels, function(item){return item.to.desc});
 	
-	
+	/*
 	$ionicPlatform.ready(function() {
             // getting device infor from $cordovaDevice
             var device = $cordovaDevice.getDevice();
@@ -26,7 +24,19 @@ angular.module('starter.controllers', [])
             $scope.platform = device.platform;
             $scope.uuid = device.uuid;      
     });
-	*/
+    */
+	
+	var myStops = ruterService.getMyStops();
+	
+	//DEBUG
+	var myStops = [{ID:'3010200', test:'a'}, {ID:'3010011', test:'b'}, {ID:'3011910', test:'c'}];
+	
+	ruterService.getStopInfo(myStops).then(function(data){
+		_.each(myStops, function(stop){
+			_.extend(stop, _.find(data, function(dataStop){return dataStop.ID}));
+		});
+    	$scope.myStops = myStops;
+  	})	
 	
 	var start = {
 		latitude: 38.898556,

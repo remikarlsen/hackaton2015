@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
 
-.factory('ruterService', function($http, $filter) {
+.factory('ruterService', function($http, $q, $filter) {
 
 	var MyDestinations = {
 		HJEM: 'Hjem',
@@ -26,12 +26,31 @@ angular.module('starter.services', [])
 	{name:'jernbanetorgetToMajorstuen', from:myStops['Jernbanetorget'], to:myStops['Majorstuen']},
 	{name:'veitvedtToMajorstuen', from:myStops['Veitvedt'], to:myStops['Majorstuen']},
 	{name:'rodvedtToMajorstuen', from:myStops['Rodtvedt'], to:myStops['Majorstuen']}	
-	]; 
-	
+	]; 	
 
    return {
+      getStopInfo: function(stops){
+      var promises = stops.map(function(stop){     
+		  var deffered  = $q.defer();  
+		  $http({
+			url : 'http://reisapi.ruter.no/Place/GetStop/'+stop.ID+'?json=true',
+			method: 'GET'
+		  }).
+		  success(function(data){
+			deffered.resolve(data);
+		  }).
+		  error(function(error){
+			  deffered.reject();
+		  });
+		  return deffered.promise;
+    });
+    return $q.all(promises);
+  },
+
+	getMyStops: function() {
+     	return myStops;
+     },     
    
-   /*
      getPing: function() {
            return $http({
             url: 'http://reisapi.ruter.no/heartbeat/index?json=true',
@@ -63,7 +82,7 @@ angular.module('starter.services', [])
             url: 'http://reisapi.ruter.no/Travel/GetTravels?fromplace='+from+'&toplace='+to+'&isafter=True&time='+filteredDate+'&proposals=1&transporttypes=8&linenames='+line,
             method: 'GET'
         })
-     }, */    
+     },    
      
    }//return
 })
@@ -73,25 +92,17 @@ angular.module('starter.services', [])
 		return num * Math.PI / 180;
 	};
 
-	return{ 
+	return{ //Haversine-algoritme
 		getDistance: function(start, end) {
 			var EARTH_RADIUS_KM = 6371;			
 			var dLat = toRad(end.latitude - start.latitude);
 			var dLon = toRad(end.longitude - start.longitude);
 			var lat1 = toRad(start.latitude);
 			var lat2 = toRad(end.latitude);
-
 			var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
 				Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
 			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
 			return EARTH_RADIUS_KM * c * 1000;
-/*
-			if (options.threshold && options.isWithin) {
-				return options.threshold > (EARTH_RADIUS_KM * c);
-			} else {
-				return EARTH_RADIUS_KM * c;
-			}*/
 		}
    }
 })
