@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
         .controller('DashCtrl', function ($ionicPlatform, $scope, ruterService, utilService, $cordovaDevice, $cordovaGeolocation) {
-            /* 
+            /*
              * NB: Fungerer kun i simulator og på device
              $ionicPlatform.ready(function() {          
              var device = $cordovaDevice.getDevice();
@@ -11,7 +11,7 @@ angular.module('starter.controllers', [])
              $scope.uuid = device.uuid;      
              });
              */
-
+/*
             $scope.MyDestinations = ruterService.getMyDestinations();
             $scope.myTravels = ruterService.getMyTravels();
             $scope.myTravels = _.groupBy($scope.myTravels, function (item) {
@@ -69,8 +69,9 @@ angular.module('starter.controllers', [])
                         }
                     });
             watch.clearWatch();
-
+*/
         })
+        
 
         .controller('ChatsCtrl', function ($scope, Chats) {
             // With the new view caching in Ionic, Controllers are only called

@@ -1,5 +1,5 @@
-<ion-view view-title="Posisjon: {{home.name}}">
-    <ion-content>
+<ion-view view-title="Posisjon: {{home.Name}}">
+    <ion-content ng-show="loadingCompleted">
         <ion-refresher
                 pulling-text="Pull to refresh..."
                 on-refresh="doRefresh()">
@@ -28,19 +28,19 @@
         </ion-list>
         </div>
         
-       <div class="list card">
+       <!--div class="list card">
       <div class="item item-divider">Closest</div>
       <div class="item item-body">  
         <div>
         	{{closestStop}}
         </div>           
       </div>
-    </div> 
+    </div--> 
 
         <div class="item item-divider" ng-click="toggleVisi('settings')"><i class="icon ion-ios-gear"></i> Visning</div>
         <div>
-        <ion-checkbox ng-model="firstChecked" ng-show="visi.settings">{{destinations[0].name}}</ion-checkbox>
-        <ion-checkbox ng-model="secondChecked" ng-show="visi.settings">{{destinations[1].name}}</ion-checkbox>
+        <ion-checkbox ng-model="firstChecked" ng-show="visi.settings">{{destinations[0].to.Name}}</ion-checkbox>
+        <ion-checkbox ng-model="secondChecked" ng-show="visi.settings">{{destinations[1].to.Name}}</ion-checkbox>
         </div>
     </ion-content>
 </ion-view>

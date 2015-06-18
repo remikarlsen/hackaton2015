@@ -1,16 +1,23 @@
 angular.module('starter.controllers')
-    .controller('OverviewCtrl', function($ionicPlatform, $scope, ruterService, utilService, $filter, $timeout, $cordovaDevice, $cordovaGeolocation) {
+    .controller('OverviewCtrl', function($ionicPlatform, $scope, ruterService, utilService, $filter, $timeout, $cordovaDevice, $cordovaGeolocation, $ionicLoading) {
+      
         $scope.firstChecked = $scope.secondChecked = true;
+        $scope.home = {};
+        $scope.destinations = [];
 
-        $scope.home = {
-            name : 'Majorstuen [T-bane]'
+        $scope.show = function() {
+          $scope.loadingCompleted=false;
+          /*
+          $ionicLoading.show({
+            template: 'Loading...'
+          });*/
+          
         };
-
-        $scope.destinations = [{
-            Name : 'Jernbanetorget'
-        }, {
-            Name : 'Veitvet'
-        }];
+        $scope.hide = function(){
+          $scope.loadingCompleted=true;
+          //$ionicLoading.hide();
+        };
+        $scope.show();
     
         function setupStops(){       
             var myStops = ruterService.getMyStopsMap();
@@ -104,7 +111,8 @@ angular.module('starter.controllers')
         };
         
         $scope.doRefresh = function () {
-            $scope.updateDestinations();
+            getPosition();
+            //$scope.updateDestinations();
             $scope.$broadcast('scroll.refreshComplete');
         };
 
@@ -137,36 +145,59 @@ angular.module('starter.controllers')
             $scope.closestStop = _.min(myStopsArr, function (stop) {
                 return stop.distanceToStop;
             });
+            //$scope.closestStop.Name = "Tull [T-bane]";
+            console.log("TMP:");
+            console.log($scope.closestStop.Name);
             if ($scope.closestStop) {
                 //Hent ut destinasjoner for nærmeste stopp og dekorer destinations med
                 $scope.home.Name = $scope.closestStop.Name;
-                console.log($scope.closestStop);
+                console.log("Closest stop found ok:");
+                console.log($scope.closestStop.Name);
+                console.log("Home name");
+                console.log($scope.home.Name);
+                /*
                 $scope.tmp = _.map($scope.myTravels[$scope.closestStop.desc], function (item) {
                     return item.to.desc;
-                });
+                });*/
             }
-        }
+            else{
+                console.log("ERROR - closestStop er udef!");
+            }
+        }       
 
         var posOptions = {timeout: 10000, enableHighAccuracy: false};
+        
+       function getPosition(){
         $scope.currentPosition = {};
         $cordovaGeolocation
                 .getCurrentPosition(posOptions)
                 .then(function (position) {
+                    
                     $scope.currentPosition.latitude = position.coords.latitude;
                     $scope.currentPosition.longitude = position.coords.longitude;
                     if (myStopsArr) {
                         getClosestStop();
+                        console.log("Closest stop:");
+                        console.log($scope.closestStop);
+                    }
+                    else{
+                        console.log("ERROR - closes stop er ikke funnet");                   
                     }
                     //prepare stops based on closest stop
+                    console.log("My travels:");
                     console.log($scope.myTravels);
                     $scope.destinations = $scope.myTravels[$scope.closestStop.desc];
-                    //console.log($scope.destinations);
+                    console.log("Destinations:");
+                    console.log($scope.destinations);
                     setupStops();                  
                     $scope.updateDestinations();
-
+                    console.log('GEO CURRENT pos done');
+                    $scope.hide();
                 }, function (err) {
                     // error
                 });
+            }
+            getPosition();
 
         var geoWatchOptions = {
             frequency: 1000,
@@ -180,11 +211,13 @@ angular.module('starter.controllers')
                     // error
                 },
                 function (position) {
+                    console.log('GEO watched!');
                     $scope.currentPosition.latitude = position.coords.latitude;
                     $scope.currentPosition.longitude = position.coords.longitude;
                     if (myStopsArr) {
                         getClosestStop();
                     }
+                    //TODO..
                 });
         watch.clearWatch();              
 
