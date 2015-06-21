@@ -7,15 +7,15 @@ angular.module('starter.controllers')
 
         $scope.show = function() {
           $scope.loadingCompleted=false;
-          /*
+          
           $ionicLoading.show({
             template: 'Loading...'
-          });*/
+          });
           
         };
         $scope.hide = function(){
           $scope.loadingCompleted=true;
-          //$ionicLoading.hide();
+          $ionicLoading.hide();
         };
         $scope.show();
     
@@ -24,7 +24,7 @@ angular.module('starter.controllers')
             console.log($scope.home.Name);
             $scope.home.desc = myStops[$scope.home.Name].desc;
             $scope.home.id = myStops[$scope.home.Name].ID;
-
+            
             $scope.destinations = _.map($scope.destinations, function (dest) {
                 dest.desc = myStops[dest.to.Name].desc;
                 dest.ID = myStops[dest.to.Name].ID;
@@ -52,7 +52,7 @@ angular.module('starter.controllers')
                             iconSize : 30,
                             iconStep : iconStep,
                             iconHTML : '30px'
-                        }
+                        };
                     });
                 });
             });
@@ -148,12 +148,18 @@ angular.module('starter.controllers')
             //$scope.closestStop.Name = "Tull [T-bane]";
             console.log("TMP:");
             console.log($scope.closestStop.Name);
+            
             if ($scope.closestStop) {
                 //Hent ut destinasjoner for nærmeste stopp og dekorer destinations med
                 $scope.home.Name = $scope.closestStop.Name;
+                
+                if(!$scope.home.Name){//Debug
+                    $scope.home.Name = 'Majorstuen [T-bane]';
+                }   
+                
                 console.log("Closest stop found ok:");
                 console.log($scope.closestStop.Name);
-                console.log("Home name");
+                console.log("Home name:");
                 console.log($scope.home.Name);
                 /*
                 $scope.tmp = _.map($scope.myTravels[$scope.closestStop.desc], function (item) {
@@ -163,36 +169,34 @@ angular.module('starter.controllers')
             else{
                 console.log("ERROR - closestStop er udef!");
             }
-        }       
+        } 
+        
+       function main(){
+            getClosestStop();
+            console.log("Closest stop:");
+            console.log($scope.closestStop);
+            //prepare stops based on closest stop
+            console.log("My travels:");
+            console.log($scope.myTravels);
+            $scope.destinations = $scope.myTravels[$scope.closestStop.desc];
+            console.log("Destinations:");
+            console.log($scope.destinations);
+            setupStops();                  
+            $scope.updateDestinations();
+            console.log('GEO CURRENT pos done');
+            $scope.hide();           
+       } 
 
-        var posOptions = {timeout: 10000, enableHighAccuracy: false};
+       var posOptions = {timeout: 10000, enableHighAccuracy: false};
         
        function getPosition(){
         $scope.currentPosition = {};
         $cordovaGeolocation
                 .getCurrentPosition(posOptions)
-                .then(function (position) {
-                    
+                .then(function (position) {                   
                     $scope.currentPosition.latitude = position.coords.latitude;
                     $scope.currentPosition.longitude = position.coords.longitude;
-                    if (myStopsArr) {
-                        getClosestStop();
-                        console.log("Closest stop:");
-                        console.log($scope.closestStop);
-                    }
-                    else{
-                        console.log("ERROR - closes stop er ikke funnet");                   
-                    }
-                    //prepare stops based on closest stop
-                    console.log("My travels:");
-                    console.log($scope.myTravels);
-                    $scope.destinations = $scope.myTravels[$scope.closestStop.desc];
-                    console.log("Destinations:");
-                    console.log($scope.destinations);
-                    setupStops();                  
-                    $scope.updateDestinations();
-                    console.log('GEO CURRENT pos done');
-                    $scope.hide();
+                    main();
                 }, function (err) {
                     // error
                 });

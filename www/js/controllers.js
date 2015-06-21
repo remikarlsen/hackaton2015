@@ -6,6 +6,11 @@ angular.module('starter.controllers', [])
                 $scope.tmp = data.data;
             });
             
+            $ionicPlatform.ready(function(){
+                // will execute when device is ready, or immediately if the device is already ready.
+               
+            });
+             
             /*
              * NB: Fungerer kun i simulator og på device
              $ionicPlatform.ready(function() {          
@@ -16,7 +21,7 @@ angular.module('starter.controllers', [])
              $scope.uuid = device.uuid;      
              });
              */
-/*
+
             $scope.MyDestinations = ruterService.getMyDestinations();
             $scope.myTravels = ruterService.getMyTravels();
             $scope.myTravels = _.groupBy($scope.myTravels, function (item) {
@@ -33,13 +38,17 @@ angular.module('starter.controllers', [])
             });
 
             function getClosestStop() {
+                //return myStops['Majorstuen [T-bane]'];
+                
                 _.each(myStops, function (stop) {
                     var distanceToStop = utilService.getDistance($scope.currentPosition, stop.geoPosition);
                     _.extend(stop, {"distanceToStop": distanceToStop});
                 });
                 $scope.closestStop = _.min(myStops, function(stop){return stop.distanceToStop;});
+                
             }
 
+        function getPosition(){
             var posOptions = {timeout: 10000, enableHighAccuracy: false};
             $scope.currentPosition = {};
             $cordovaGeolocation
@@ -48,13 +57,15 @@ angular.module('starter.controllers', [])
                         $scope.currentPosition.latitude = position.coords.latitude;
                         $scope.currentPosition.longitude = position.coords.longitude;
                         if (myStops) {
-                            getClosestStop();
+                            //getClosestStop();
                         }
                         
                     }, function (err) {
                         // error
                     });
-
+        }
+        getPosition();
+        
             var geoWatchOptions = {
                 frequency: 1000,
                 timeout: 3000,
@@ -70,15 +81,15 @@ angular.module('starter.controllers', [])
                         $scope.currentPosition.latitude = position.coords.latitude;
                         $scope.currentPosition.longitude = position.coords.longitude;
                         if (myStops) {
-                            getClosestStop();
+                            //getClosestStop();
                         }
                     });
             watch.clearWatch();
-*/
+
         })
         
 
-        .controller('ChatsCtrl', function ($scope, Chats) {
+        .controller('GeoCtrl', function ($scope, $cordovaGeolocation) {
             // With the new view caching in Ionic, Controllers are only called
             // when they are recreated or on app start, instead of every page change.
             // To listen for when this page is active (for example, to refresh data),
@@ -87,10 +98,38 @@ angular.module('starter.controllers', [])
             //$scope.$on('$ionicView.enter', function(e) {
             //});
 
-            $scope.chats = Chats.all();
-            $scope.remove = function (chat) {
-                Chats.remove(chat);
+            var posOptions = {timeout: 10000, enableHighAccuracy: false};
+            $scope.currentPosition = {};
+            $cordovaGeolocation
+                    .getCurrentPosition(posOptions)
+                    .then(function (position) {
+                        $scope.currentPosition.latitude = position.coords.latitude;
+                        $scope.currentPosition.longitude = position.coords.longitude;
+                    }, function (err) {
+                        $scope.err = err;
+                    });
+       
+            var geoWatchOptions = {
+                frequency: 1000,
+                timeout: 3000,
+                enableHighAccuracy: false // may cause errors if true
             };
+            
+            var watch = $cordovaGeolocation.watchPosition(geoWatchOptions);
+            watch.then(
+                    null,
+                    function (err) {
+                        $scope.err = err;
+                    },
+                    function (position) {
+                        $scope.currentPosition.latitude = position.coords.latitude;
+                        $scope.currentPosition.longitude = position.coords.longitude;
+                    });
+            watch.clearWatch();
+
+
+
+
         })
 
         .controller('ChatDetailCtrl', function ($scope, $stateParams, Chats) {
