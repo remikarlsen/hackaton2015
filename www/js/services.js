@@ -1,11 +1,11 @@
 angular.module('starter.services', [])
 
-        .factory('ruterService', function ($http, $q, $filter) {
+        .factory('ruterService', function ($http, $q, $filter, ApiPlace, ApiTravel, Apiheartbeat) {
 
             var MyDestinations = {
                 HJEM: 'Hjem',
                 JOBB: 'Jobb',
-                SKOLE: 'Skole'
+                SKOLE: 'Skole'  
             };
 
             var myStops = {};
@@ -27,7 +27,7 @@ angular.module('starter.services', [])
                     var promises = stops.map(function (stop) {
                         var deffered = $q.defer();
                         $http({
-                            url: 'http://reisapi.ruter.no/Place/GetStop/' + stop.ID + '?json=true',
+                            url: ApiPlace.url + '/GetStop/' + stop.ID + '?json=true',
                             method: 'GET'
                         }).
                                 success(function (data) {
@@ -50,7 +50,7 @@ angular.module('starter.services', [])
                 },
                 getPing: function () {
                     return $http({
-                        url: 'http://reisapi.ruter.no/heartbeat/index?json=true',
+                        url: Apiheartbeat.url + '/index?json=true',
                         method: 'GET'
                     });
                 },
@@ -64,7 +64,7 @@ angular.module('starter.services', [])
                     var dateFilter = $filter('date');
                     var filteredDate = dateFilter(new Date(), 'ddMMyyyyHHmmss');
                     return $http({
-                        url: 'http://reisapi.ruter.no/Travel/GetTravels?fromplace=' + from + '&toplace=' + to + '&isafter=true&proposals=3&transporttypes=8',
+                        url: ApiTravel.url + '/GetTravels?fromplace=' + from + '&toplace=' + to + '&isafter=true&proposals=3&transporttypes=8',
                         method: 'GET'
                     });
                 }

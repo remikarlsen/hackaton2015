@@ -1,6 +1,11 @@
 angular.module('starter.controllers', [])
 
         .controller('DashCtrl', function ($ionicPlatform, $scope, ruterService, utilService, $cordovaDevice, $cordovaGeolocation) {
+            $scope.tmp = "It is alive!";
+            ruterService.getPing().then(function (data) {
+                $scope.tmp = data.data;
+            });
+            
             /*
              * NB: Fungerer kun i simulator og på device
              $ionicPlatform.ready(function() {          
