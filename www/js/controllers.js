@@ -4,7 +4,11 @@ angular.module('starter.controllers', [])
             $scope.tmp = "It is alive!";
             ruterService.getPing().then(function (data) {
                 $scope.tmp = data.data;
-            });
+            },
+             function(reason) {
+                $scope.err = reason;
+              }
+            );
             
             $ionicPlatform.ready(function(){
                 // will execute when device is ready, or immediately if the device is already ready.
@@ -98,7 +102,7 @@ angular.module('starter.controllers', [])
             //$scope.$on('$ionicView.enter', function(e) {
             //});
 
-            var posOptions = {timeout: 10000, enableHighAccuracy: false};
+            var posOptions = {timeout: 30000, enableHighAccuracy: false};
             $scope.currentPosition = {};
             $cordovaGeolocation
                     .getCurrentPosition(posOptions)
@@ -110,8 +114,8 @@ angular.module('starter.controllers', [])
                     });
        
             var geoWatchOptions = {
-                frequency: 1000,
-                timeout: 3000,
+                frequency: 30000,
+                timeout: 30000,
                 enableHighAccuracy: false // may cause errors if true
             };
             

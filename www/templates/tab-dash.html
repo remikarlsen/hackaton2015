@@ -25,7 +25,16 @@
                 from <code>ngCordova</code>
             </div>
         </div-->
- 
+       <div class="list card">
+      <div class="item item-divider">ERROR</div>
+      <div class="item item-body">
+        <div>
+          {{err}}
+          {{err | json}}
+        </div>
+      </div>
+    </div>  
+        
       <div class="list card">
       <div class="item item-divider">TMP - for debugging</div>
       <div class="item item-body">
@@ -80,15 +89,7 @@
         </div>           
       </div>
     </div>         
-        
-    <div class="list card">
-      <div class="item item-divider">tmp</div>
-      <div class="item item-body">  
-        <div>
-        	{{tmp}}
-        </div>           
-      </div>
-    </div>   
+          
     
     <ion-list>
   		<ion-item ng-repeat="(key, value) in myTravels">

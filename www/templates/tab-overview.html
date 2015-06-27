@@ -4,6 +4,8 @@
                 pulling-text="Pull to refresh..."
                 on-refresh="doRefresh()">
         </ion-refresher>
+        <div ng-show="err">ERROR: {{err}}</div>
+        
         <div ng-if="firstChecked">
         <div class="item item-divider" ng-click="toggleVisi('first')"><i class="icon" ng-class="{ 'ion-minus-round': visi.first , 'ion-plus-round': !visi.first}"></i> Reis til {{destinations[0].to.Name}} med </div>
         <ion-list ng-if="visi.first">

@@ -7,15 +7,15 @@ angular.module('starter.controllers')
 
         $scope.show = function() {
           $scope.loadingCompleted=false;
-          
+          /*
           $ionicLoading.show({
             template: 'Loading...'
           });
-          
+          */
         };
         $scope.hide = function(){
           $scope.loadingCompleted=true;
-          $ionicLoading.hide();
+          //$ionicLoading.hide();
         };
         $scope.show();
     
@@ -26,11 +26,16 @@ angular.module('starter.controllers')
             $scope.home.id = myStops[$scope.home.Name].ID;
             
             $scope.destinations = _.map($scope.destinations, function (dest) {
-                dest.desc = myStops[dest.to.Name].desc;
-                dest.ID = myStops[dest.to.Name].ID;
+                var stop = myStops[dest.to.Name];
+                if(!stop){//TODO: SKanky hack
+                    stop = myStops['Jernbanetorget [T-bane]'];
+                }
+                dest.desc = stop.desc;
+                dest.ID = stop.ID;
                 return dest;
             });
         }
+
 
         $scope.updateDestinations = function () {
             _.each($scope.destinations, function (dest) {
@@ -54,6 +59,8 @@ angular.module('starter.controllers')
                             iconHTML : '30px'
                         };
                     });
+                }, function(reason){
+                    $scope.err = reason;
                 });
             });
         };
@@ -135,6 +142,8 @@ angular.module('starter.controllers')
             $scope.myStopsArr = _.map(myStopsArr, function (stop) {
                 return _.extend(stop, _.findWhere(data, {ID: stop.ID}));
             });
+        }, function(reason){
+            $scope.err = reason;
         });
 
         function getClosestStop() {
@@ -198,7 +207,7 @@ angular.module('starter.controllers')
                     $scope.currentPosition.longitude = position.coords.longitude;
                     main();
                 }, function (err) {
-                    // error
+                    $scope.err = err;
                 });
             }
             getPosition();
@@ -212,16 +221,13 @@ angular.module('starter.controllers')
         watch.then(
                 null,
                 function (err) {
-                    // error
+                    $scope.err = err;
                 },
                 function (position) {
                     console.log('GEO watched!');
                     $scope.currentPosition.latitude = position.coords.latitude;
                     $scope.currentPosition.longitude = position.coords.longitude;
-                    if (myStopsArr) {
-                        getClosestStop();
-                    }
-                    //TODO..
+                    main();
                 });
         watch.clearWatch();              
 
